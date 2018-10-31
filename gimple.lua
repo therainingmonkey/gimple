@@ -1,6 +1,6 @@
 #!/usr/bin/env lua
 
---[TODO: Tab completion, catch ctrl-C, more operations, init when needed, documentation]
+--[TODO: Reversions, Tab completion, catch ctrl-C, more operations, init when needed, documentation, luarocks]
 
 
 local function pwrapper(process)
@@ -25,7 +25,7 @@ local function branch(branchname)
 		end
 	else
 		print(pwrapper('git branch -av'))
-		print("Enter the name of the branch you'd like to switch to, or enter a new name to create a new branch:")
+		print("Enter the name of the branch you'd like to switch to, or enter a new name to create a new branch and switch to it:")
 		branchname = io.read()
 		local output = pwrapper('git checkout '..branchname)
 		if output:sub(1,5) == "error" then
@@ -52,6 +52,17 @@ end
 
 local function init()
 	print(pwrapper('git init'))
+end
+
+local function revert(commitNo)
+	if not commitNo then
+		print(pwrapper('git log -n 5'))
+		print("Enter the commit no. you'd like to revert to:")
+		print("(Your work will be backed up) Ctrl-C to cancel.")
+		commitNo = io.read()
+	end
+	local backupNo = --TODO
+	pwrapper('git branch gimplebackup'..backupNo)
 end
 
 if arg[1] == "branch" then
