@@ -67,6 +67,7 @@ local function revert(commitNo)
 	pwrapper('git branch -D gimplebackup')
 	pwrapper('git branch gimplebackup')
 	pwrapper('git revert --no-edit '..commitNo)
+	print(pwrapper('git branch'))
 end
 
 if arg[1] == "branch" then
