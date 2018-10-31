@@ -9,3 +9,8 @@ Currently supported commands:
 * clone
 * init
 * revert
+
+## Todo:
+* colours
+* docs
+* testing
