@@ -1,6 +1,6 @@
 #!/usr/bin/env lua
 
---[TODO: Reversions, Tab completion, catch ctrl-C, more operations, init when needed, documentation, luarocks]
+--[TODO: Tab completion, catch ctrl-C, more operations, init when needed, documentation]
 
 local helpstring = "Gimple tries to make git simple!\nUSAGE: gimple [option]\nOptions are: branch, commit, clone, init and revert."
 
@@ -26,7 +26,7 @@ local function branch(branchname)
 		end
 	else
 		print(pwrapper('git branch -av'))
-		print("Enter the name of the branch you'd like to switch to, or enter a new name to create a new branch and switch to it:")
+		print("Enter the name of the branch you'd like to switch to, or enter a new name to create a new branch:")
 		branchname = io.read()
 		local output = pwrapper('git checkout '..branchname)
 		if output:sub(1,5) == "error" then
@@ -66,7 +66,7 @@ local function revert(commitNo)
 	pwrapper('git commit -m "GIMPLE: Backup before reversion."')
 	pwrapper('git branch -D gimplebackup')
 	pwrapper('git branch gimplebackup')
-	pwrapper('git revert '..commitNo)
+	pwrapper('git revert --no-edit '..commitNo)
 end
 
 if arg[1] == "branch" then
