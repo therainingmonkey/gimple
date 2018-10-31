@@ -2,6 +2,7 @@
 
 --[TODO: Reversions, Tab completion, catch ctrl-C, more operations, init when needed, documentation, luarocks]
 
+local helpstring = "Gimple tries to make git simple!\nUSAGE: gimple [option]\nOptions are: branch, commit, clone, init and revert."
 
 local function pwrapper(process)
 	-- redirect stderr to stdout, else we can't read it
@@ -58,11 +59,14 @@ local function revert(commitNo)
 	if not commitNo then
 		print(pwrapper('git log -n 5'))
 		print("Enter the commit no. you'd like to revert to:")
-		print("(Your work will be backed up) Ctrl-C to cancel.")
+		print("(Your work will be backed up in the 'gimplebackup' branch, but this will override any previous backup.) Ctrl-C to cancel.")
 		commitNo = io.read()
 	end
-	local backupNo = --TODO
-	pwrapper('git branch gimplebackup'..backupNo)
+	pwrapper('git add *')
+	pwrapper('git commit -m "GIMPLE: Backup before reversion."')
+	pwrapper('git branch -D gimplebackup')
+	pwrapper('git branch gimplebackup')
+	pwrapper('git revert '..commitNo)
 end
 
 if arg[1] == "branch" then
@@ -73,4 +77,8 @@ elseif arg[1] == "clone" then
 	clone(arg[2])
 elseif arg[1] == "init" then
 	init()
+elseif arg[1] == "revert" then
+	revert()
+else
+	print(helpstring)
 end
