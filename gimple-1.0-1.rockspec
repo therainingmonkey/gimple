@@ -15,5 +15,10 @@ build = {
    type = "builtin",
    modules = {
       gimple = "gimple.lua"
+   },
+   install = {
+      bin = {
+         gimple = "gimple.lua",
+      }
    }
 }
